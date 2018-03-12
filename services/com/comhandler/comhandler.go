@@ -5,8 +5,8 @@ import (
 	"os"
 	"time"
 
+	"github.com/KaiserGald/gmscreen/services/com/comserver"
 	"github.com/KaiserGald/logger"
-	"github.com/KaiserGald/unlicht-server/services/com/comserver"
 )
 
 const (

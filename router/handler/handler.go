@@ -10,10 +10,10 @@ import (
 	"net/http"
 	"regexp"
 
+	"github.com/KaiserGald/gmscreen/router/handler/handle"
+	"github.com/KaiserGald/gmscreen/router/handler/handlers/index"
+	"github.com/KaiserGald/gmscreen/router/handler/handlers/testpage"
 	"github.com/KaiserGald/logger"
-	"github.com/KaiserGald/unlicht-server/router/handler/handle"
-	"github.com/KaiserGald/unlicht-server/router/handler/handlers/index"
-	"github.com/KaiserGald/unlicht-server/router/handler/handlers/testpage"
 )
 
 var (

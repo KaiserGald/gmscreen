@@ -6,9 +6,9 @@ ENV GOBIN /go/bin
 ENV BINARY_NAME $app_name
 ENV INSTALLPATH $install_path
 RUN mkdir /srv/$BINARY_NAME
-RUN mkdir -p $src_path/unlicht-server
-ADD . $src_path/unlicht-server
-RUN cd $src_path/unlicht-server && make all
+RUN mkdir -p $src_path/$BINARY_NAME
+ADD . $src_path/$BINARY_NAME
+RUN cd $src_path/$BINARY_NAME && make all
 ENTRYPOINT $INSTALLPATH/$BINARY_NAME -c
 EXPOSE 8080
 EXPOSE 8081

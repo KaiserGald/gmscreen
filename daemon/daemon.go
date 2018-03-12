@@ -12,10 +12,10 @@ import (
 	"syscall"
 	"time"
 
+	"github.com/KaiserGald/gmscreen/router"
+	"github.com/KaiserGald/gmscreen/services/com/comhandler"
+	"github.com/KaiserGald/gmscreen/services/com/comserver"
 	"github.com/KaiserGald/logger"
-	"github.com/KaiserGald/unlicht-server/router"
-	"github.com/KaiserGald/unlicht-server/services/com/comhandler"
-	"github.com/KaiserGald/unlicht-server/services/com/comserver"
 )
 
 var log *logger.Logger

@@ -9,8 +9,8 @@ import (
 	"os"
 	"testing"
 
+	"github.com/KaiserGald/gmscreen/daemon"
 	"github.com/KaiserGald/logger"
-	"github.com/KaiserGald/unlicht-server/daemon"
 )
 
 func TestMain(m *testing.M) {

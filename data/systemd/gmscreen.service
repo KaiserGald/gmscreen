@@ -1,0 +1,23 @@
+[Unit]
+Description=gmscreen Server
+ConditionPathExists=/usr/bin/docker
+After=docker.service
+Requires=docker.service
+StartLimitBurst=6
+
+[Service]
+Type=simple
+LimitNOFILE=1024
+
+Restart=on-success
+RestartSec=10
+StartLimitInterval=70
+
+EnvironmentFile=/etc/.unlichtconf
+ExecStart=/usr/bin/docker run -e RUN_ENV=${ENV} -p=${PORT}:8080 -v /home/gald/goworkspace/src/github.com/KaiserGald/gmscreen/app:/srv/gmscreen/app gmscreen:${TAG}
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=gmscreen
+
+[Install]
+WantedBy=mult-user.target

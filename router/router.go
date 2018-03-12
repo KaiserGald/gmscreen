@@ -11,8 +11,8 @@ import (
 	"os"
 	"time"
 
+	"github.com/KaiserGald/gmscreen/router/handler"
 	"github.com/KaiserGald/logger"
-	"github.com/KaiserGald/unlicht-server/router/handler"
 )
 
 // Start initializes and starts the ui router

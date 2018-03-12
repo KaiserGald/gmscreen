@@ -9,7 +9,7 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/KaiserGald/unlicht-server/router/handler/handle"
+	"github.com/KaiserGald/gmscreen/router/handler/handle"
 )
 
 // Route is the route that will be used

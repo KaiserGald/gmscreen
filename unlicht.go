@@ -10,8 +10,8 @@ import (
 	"os"
 	"strconv"
 
+	"github.com/KaiserGald/gmscreen/daemon"
 	"github.com/KaiserGald/logger"
-	"github.com/KaiserGald/unlicht-server/daemon"
 )
 
 var port int
