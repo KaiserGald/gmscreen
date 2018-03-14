@@ -6,7 +6,6 @@
 package handle
 
 import (
-	"fmt"
 	"net/http"
 
 	"github.com/KaiserGald/logger"
@@ -52,5 +51,4 @@ func (r *Route) Init(lg *logger.Logger) {
 
 func (r *Route) ErrorHandler(w http.ResponseWriter, req *http.Request, status int) {
 	w.WriteHeader(status)
-	fmt.Println(w, "404")
 }

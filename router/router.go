@@ -50,6 +50,7 @@ func Start(listener net.Listener, log *logger.Logger) error {
 	http.Handle("/css/", http.StripPrefix("/css", cacheResource(http.FileServer(http.Dir("/srv/"+os.Getenv("BINARY_NAME")+"/app/assets/css")))))
 	log.Debug.Log("Setting up Route: /js/")
 	http.Handle("/js/", http.StripPrefix("/js", cacheResource(http.FileServer(http.Dir("/srv/"+os.Getenv("BINARY_NAME")+"/app/assets/js")))))
+	http.Handle("/src/", http.StripPrefix("/src", cacheResource(http.FileServer(http.Dir("/srv/"+os.Getenv("BINARY_NAME")+"/app/src")))))
 	go server.Serve(listener)
 
 	log.Info.Log("Router successfully started.")

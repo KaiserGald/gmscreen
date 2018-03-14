@@ -28,7 +28,7 @@ func handleFunc(w http.ResponseWriter, r *http.Request) {
 		route.ErrorHandler(w, r, http.StatusNotFound)
 		return
 	}
-	http.ServeFile(w, r, "/srv/"+os.Getenv("BINARY_NAME")+"/app/static/index.html")
+	http.ServeFile(w, r, "/srv/"+os.Getenv("BINARY_NAME")+"/app/index.html")
 }
 
 // Route returns a pointer to the route
