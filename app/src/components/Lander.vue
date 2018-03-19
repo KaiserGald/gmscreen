@@ -1,7 +1,10 @@
 <template>
   <div id="lander">
-    <h3>Welcome</h3>
-    <p>Please click <a href="/login">here</a> to login!</p>
+    <h3 class="main-body-header">Welcome</h3>
+    <div class="main-body-text">
+      <p>Please click <router-link class="no-decoration" to="/login">here</router-link> to login!</p>
+      <p>If you don't have an account, click <router-link class="no-decoration" to="/register">here</router-link> to register a new account.</p>
+    </div>
   </div>
 </template>
 

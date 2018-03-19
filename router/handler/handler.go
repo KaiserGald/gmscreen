@@ -12,7 +12,8 @@ import (
 
 	"github.com/KaiserGald/gmscreen/router/handler/handle"
 	"github.com/KaiserGald/gmscreen/router/handler/handlers/index"
-	"github.com/KaiserGald/gmscreen/router/handler/handlers/testpage"
+	"github.com/KaiserGald/gmscreen/router/handler/handlers/login"
+	"github.com/KaiserGald/gmscreen/router/handler/handlers/register"
 	"github.com/KaiserGald/logger"
 )
 
@@ -31,8 +32,14 @@ func Start(lg *logger.Logger) error {
 		return err
 	}
 
-	testpage.Route().Init(log)
-	err = Add(testpage.Route())
+	login.Route().Init(log)
+	err = Add(login.Route())
+	if err != nil {
+		return err
+	}
+
+	register.Route().Init(log)
+	err = Add(register.Route())
 	if err != nil {
 		return err
 	}

@@ -52,3 +52,11 @@ func (r *Route) Init(lg *logger.Logger) {
 func (r *Route) ErrorHandler(w http.ResponseWriter, req *http.Request, status int) {
 	w.WriteHeader(status)
 }
+
+func (r *Route) PreflightHandler(w http.ResponseWriter, req *http.Request) {
+	w.Header().Add("Access-Control-Allow-Origin", "*")
+	w.Header().Add("Access-Control-Allow-Methods", "POST")
+	w.Header().Add("Access-Control-Allow-Headers", "content-type")
+	w.Header().Add("Access-Control-Max-Age", "86400")
+	w.Header().Set("Content-Type", "application/x-www-form-urlencoded")
+}

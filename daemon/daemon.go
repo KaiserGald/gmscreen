@@ -6,6 +6,7 @@
 package daemon
 
 import (
+	"crypto/tls"
 	"net"
 	"os"
 	"os/signal"
@@ -30,6 +31,16 @@ type Config struct {
 func Run(cfg *Config, lg *logger.Logger) error {
 	log = lg
 
+	cer, err := tls.LoadX509KeyPair("/go/src/github.com/KaiserGald/gmscreen/data/certs/server.crt", "/go/src/github.com/KaiserGald/gmscreen/data/certs/server.key")
+	if err != nil {
+		log.Error.Log("Error loading certificates: %v", err)
+		return err
+	}
+
+	config := &tls.Config{
+		Certificates:       []tls.Certificate{cer},
+		InsecureSkipVerify: true,
+	}
 	log.Notice.Log("Starting HTTP listener on %s", cfg.ListenSpec)
 	l, err := net.Listen("tcp", cfg.ListenSpec)
 	if err != nil {
@@ -37,7 +48,7 @@ func Run(cfg *Config, lg *logger.Logger) error {
 		return err
 	}
 
-	err = router.Start(l, log)
+	err = router.Start(l, config, log)
 	if err != nil {
 		log.Error.Log("Error Starting Router.")
 		return err

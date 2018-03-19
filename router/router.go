@@ -6,6 +6,7 @@
 package router
 
 import (
+	"crypto/tls"
 	"net"
 	"net/http"
 	"os"
@@ -16,7 +17,7 @@ import (
 )
 
 // Start initializes and starts the ui router
-func Start(listener net.Listener, log *logger.Logger) error {
+func Start(listener net.Listener, config *tls.Config, log *logger.Logger) error {
 
 	log.Debug.Log("Setting up resource caching.")
 	cacheResource := func(h http.Handler) http.HandlerFunc {
@@ -31,6 +32,7 @@ func Start(listener net.Listener, log *logger.Logger) error {
 	log.Info.Log("Starting Router...")
 
 	server := &http.Server{
+		TLSConfig:      config,
 		ReadTimeout:    60 * time.Second,
 		WriteTimeout:   60 * time.Second,
 		MaxHeaderBytes: 1 << 16,
@@ -51,7 +53,7 @@ func Start(listener net.Listener, log *logger.Logger) error {
 	log.Debug.Log("Setting up Route: /js/")
 	http.Handle("/js/", http.StripPrefix("/js", cacheResource(http.FileServer(http.Dir("/srv/"+os.Getenv("BINARY_NAME")+"/app/assets/js")))))
 	http.Handle("/src/", http.StripPrefix("/src", cacheResource(http.FileServer(http.Dir("/srv/"+os.Getenv("BINARY_NAME")+"/app/src")))))
-	go server.Serve(listener)
+	go server.ServeTLS(listener, "/go/src/github.com/KaiserGald/gmscreen/data/certs/server.crt", "/go/src/github.com/KaiserGald/gmscreen/data/certs/server.key")
 
 	log.Info.Log("Router successfully started.")
 	return nil
