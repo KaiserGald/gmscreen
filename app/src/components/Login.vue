@@ -28,7 +28,7 @@ export default {
       var params = new URLSearchParams()
       params.append('username', this.username)
       params.append('password', this.password)
-      axios.post('https://192.168.1.140:8080/login', params)
+      axios.post('gmscreen/login', params)
     }
   }
 }

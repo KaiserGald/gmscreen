@@ -5,6 +5,7 @@ ARG install_path
 ENV GOBIN /go/bin
 ENV BINARY_NAME $app_name
 ENV INSTALLPATH $install_path
+ENV APPROOT $src_path/$BINARY_NAME
 RUN mkdir /srv/$BINARY_NAME
 RUN mkdir -p $src_path/$BINARY_NAME
 ADD . $src_path/$BINARY_NAME

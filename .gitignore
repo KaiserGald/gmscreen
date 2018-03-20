@@ -1,4 +1,4 @@
 data/logs
 data/systemd/unlicht-server.service
-db/
+db/database
 unlicht-server_log

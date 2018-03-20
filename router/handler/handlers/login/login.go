@@ -9,6 +9,7 @@ import (
 	"net/http"
 
 	"github.com/KaiserGald/gmscreen/router/handler/handle"
+	"github.com/satori/go.uuid"
 )
 
 // Route is the route that will be used
@@ -35,7 +36,17 @@ func handleFunc(w http.ResponseWriter, r *http.Request) {
 		}
 		username := r.FormValue("username")
 		password := r.FormValue("password")
-		route.Log().Debug.Log("Username: %v\nPassword: %v\n", username, password)
+		route.Log().Debug.Log("Username: %v\tPassword: %v", username, password)
+
+		sID, err := uuid.NewV4()
+		if err != nil {
+			route.Log().Debug.Log("Error generating uuid: %v", err)
+		}
+		c := &http.Cookie{
+			Name:  "session",
+			Value: sID.String(),
+		}
+		http.SetCookie(w, c)
 	}
 }
 

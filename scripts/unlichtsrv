@@ -66,7 +66,7 @@ run () {
     kill `pgrep mongod`
     sleep 3s
   fi
-  mongod --dbpath="./db" --fork --logpath="data/logs/dblog.log" --logappend
+  mongod --dbpath="./db/database" --fork --logpath="data/logs/dblog.log" --bind_ip 192.168.1.140
   # start the container as a service
   sudo systemctl start $BINARY_NAME
   echo "${BINARY_NAME} started at localhost:${port}."

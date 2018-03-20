@@ -13,6 +13,8 @@ import (
 	"syscall"
 	"time"
 
+	"github.com/KaiserGald/gmscreen/db"
+	"github.com/KaiserGald/gmscreen/models"
 	"github.com/KaiserGald/gmscreen/router"
 	"github.com/KaiserGald/gmscreen/services/com/comhandler"
 	"github.com/KaiserGald/gmscreen/services/com/comserver"
@@ -47,7 +49,8 @@ func Run(cfg *Config, lg *logger.Logger) error {
 		log.Error.Log("Error creating listener: %v", err)
 		return err
 	}
-
+	db.Init(log)
+	models.Init(log)
 	err = router.Start(l, config, log)
 	if err != nil {
 		log.Error.Log("Error Starting Router.")
@@ -57,7 +60,6 @@ func Run(cfg *Config, lg *logger.Logger) error {
 	comhandler.Start(log)
 
 	log.Notice.Log("Server up and running.")
-
 	waitForSignal()
 
 	return nil
