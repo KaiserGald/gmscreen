@@ -1,5 +1,5 @@
 <template>
-  <div id="register">
+  <div id="register-form" v-if="shouldRender">
     <h3 class="main-body-header">Register</h3>
     <form class="main-body-text" @submit.prevent="postRegister">
       <div class="form-error" v-show="usernameExists == true">Username already exists!</div>
@@ -19,7 +19,7 @@
 import axios from 'axios'
 
 export default {
-  name: 'register',
+  name: 'registerForm',
   data () {
     return {
       username: '',
@@ -45,13 +45,12 @@ export default {
         if (response.status === 200) {
           self.usernameExists = false
           self.emailExists = false
-          console.log('test')
           axios({
             url: 'gmscreen/register',
             method: 'POST',
             params: params
           })
-          self.$router.push('/')
+          self.$emit('regOk')
         }
       }).catch(function (error) {
         if (error.response.status === 400) {
@@ -61,7 +60,8 @@ export default {
         }
       })
     }
-  }
+  },
+  props: ['shouldRender']
 }
 </script>
 
