@@ -44,6 +44,10 @@ export default {
   margin: 0% 6% 0% 6%;
 }
 
+.form-error {
+  color: red;
+}
+
 html {
   background-color: #202222;
   color: white;

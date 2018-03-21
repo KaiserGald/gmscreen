@@ -2,8 +2,10 @@
   <div id="register">
     <h3 class="main-body-header">Register</h3>
     <form class="main-body-text" @submit.prevent="postRegister">
+      <div class="form-error" v-show="usernameExists == true">Username already exists!</div>
       Username:
       <input type="text" v-model="username"><br>
+      <div class="form-error" v-show="emailExists == true">Email already exists!</div>
       Email:
       <input type="text" v-model="email"><br>
       Password:
@@ -22,7 +24,9 @@ export default {
     return {
       username: '',
       email: '',
-      password: ''
+      password: '',
+      usernameExists: false,
+      emailExists: false
     }
   },
   methods: {
@@ -32,6 +36,7 @@ export default {
       params.append('email', this.email)
       params.append('password', this.password)
 
+      var self = this
       axios({
         url: 'gmscreen/register',
         method: 'GET',
@@ -46,10 +51,10 @@ export default {
           })
         }
       }).catch(function (error) {
-        if (error.response) {
-          console.log(error.response.data)
-          console.log(error.response.status)
-          console.log(error.response.headers)
+        if (error.response.status === 400) {
+          console.log(error.response.data.Username)
+          self.usernameExists = error.response.data.Username
+          self.emailExists = error.response.data.Email
         }
       })
     }

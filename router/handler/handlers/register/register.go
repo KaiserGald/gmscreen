@@ -6,6 +6,7 @@
 package register
 
 import (
+	"encoding/json"
 	"net/http"
 
 	"github.com/KaiserGald/gmscreen/db"
@@ -32,7 +33,6 @@ func handleFunc(w http.ResponseWriter, r *http.Request) {
 		route.PreflightHandler(w, r)
 
 	case "GET":
-		w.Header().Add("Access-Control-Allow-Origin", "*")
 		if err := r.ParseForm(); err != nil {
 			route.Log().Debug.Log("ParseForm() err: %v", err)
 		}
@@ -44,16 +44,33 @@ func handleFunc(w http.ResponseWriter, r *http.Request) {
 		} else {
 			route.Log().Info.Log("Connected to database.")
 		}
+		msg := handle.ValidUserDataMessage{
+			Username: false,
+			Email:    false,
+		}
 		_, err = models.GetUserByName(username, s)
 		if err == nil {
-			w.WriteHeader(http.StatusBadRequest)
-			w.Write([]byte("Username already exists."))
+			msg.Username = true
 		}
 		_, err = models.GetUserByEmail(email, s)
 		if err == nil {
-			w.WriteHeader(http.StatusBadRequest)
-			w.Write([]byte("Email already exists."))
+			msg.Email = true
 		}
+		if msg.Username || msg.Email {
+			w.WriteHeader(http.StatusBadRequest)
+			w.Header().Add("Access-Control-Allow-Origin", "*")
+		}
+		if msg.Username {
+			route.Log().Info.Log("Username already exists.")
+		}
+		if msg.Email {
+			route.Log().Info.Log("Email already exists.")
+		}
+		jmsg, err := json.Marshal(msg)
+		if err != nil {
+			route.Log().Error.Log("Error marshalling json response: %v", err)
+		}
+		w.Write(jmsg)
 
 	case "POST":
 		w.Header().Add("Access-Control-Allow-Origin", "*")
