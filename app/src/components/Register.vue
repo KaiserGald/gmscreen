@@ -43,12 +43,15 @@ export default {
         params: params
       }).then(function (response) {
         if (response.status === 200) {
+          self.usernameExists = false
+          self.emailExists = false
           console.log('test')
           axios({
             url: 'gmscreen/register',
             method: 'POST',
             params: params
           })
+          self.$router.push('/')
         }
       }).catch(function (error) {
         if (error.response.status === 400) {
