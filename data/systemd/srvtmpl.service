@@ -16,6 +16,7 @@ StartLimitInterval=70
 EnvironmentFile=/etc/.unlichtconf
 ExecStart=EXECSTART
 StandardOutput=syslog
+StandardInput=console
 StandardError=syslog
 SyslogIdentifier=SYSLOGIDENTIFIER
 

@@ -19,7 +19,9 @@ deps:
 	@go get -u github.com/KaiserGald/logger
 	@go get -u github.com/satori/go.uuid
 	@go get -u golang.org/x/crypto/bcrypt
+	@go get -u golang.org/x/sys/unix
 	@go get -u github.com/globalsign/mgo
+	@go get -u github.com/shoenig/bcrypt-tool
 	$(DONE)
 
 build:
@@ -29,6 +31,7 @@ build:
 	@echo -e Writing conf file...
 	@echo "{\n\t\"Dir\": \"$(shell pwd)\"\n}" > $(CONFDIR)/conf.json
 	@echo "{\n\t\"host\": \"${DATABASEHOST}\",\n\t\"port\": \"${DATABASEPORT}\"\n}" > $(CONFDIR)/db.json
+	@echo "{\n\t\"host\": \"${SMTPHOST}\",\n\t\"port\": \"${SMTPPORT}\",\n\t\"address\": \"${EMAILADDRESS}\",\n\t\"password\": \"${SMTPPW}\"\n}" > $(MAILCONFIGDIR)/email.json
 	$(DONE)
 
 install:

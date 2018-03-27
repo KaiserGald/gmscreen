@@ -102,6 +102,18 @@ func handleFunc(w http.ResponseWriter, r *http.Request) {
 				route.Log().Info.Log(err.Error())
 			}
 		}
+		if err != nil {
+			route.Log().Error.Log("Error connecting to database.")
+		}
+		u, err := models.GetUserByEmail(email, s)
+		if err != nil {
+			route.Log().Error.Log("Error getting user data: %v", err)
+		}
+		route.Log().Debug.Log("%v", u)
+		err = route.Mailer.SendVerificationMail("Validate Your Email Address", "validate.html", []string{email}, u)
+		if err != nil {
+			route.Log().Error.Log("Error sending validation email: %v", err)
+		}
 	}
 }
 

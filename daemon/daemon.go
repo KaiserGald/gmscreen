@@ -51,6 +51,7 @@ func Run(cfg *Config, lg *logger.Logger) error {
 	}
 	db.Init(log)
 	models.Init(log)
+
 	err = router.Start(l, config, log)
 	if err != nil {
 		log.Error.Log("Error Starting Router.")

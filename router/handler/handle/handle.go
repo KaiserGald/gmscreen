@@ -8,6 +8,7 @@ package handle
 import (
 	"net/http"
 
+	"github.com/KaiserGald/gmscreen/services/mailer"
 	"github.com/KaiserGald/logger"
 )
 
@@ -16,6 +17,7 @@ type Route struct {
 	name    string
 	handler http.Handler
 	log     *logger.Logger
+	Mailer  *mailer.Mailer
 }
 
 // Name returns the name of the Route
@@ -47,6 +49,8 @@ func (r *Route) Log() *logger.Logger {
 func (r *Route) Init(lg *logger.Logger) {
 	r.log = lg
 	r.log.Debug.Log("Route '%v' found!", r.Name())
+	r.Mailer = &mailer.Mailer{}
+	r.Mailer.Init(lg)
 }
 
 func (r *Route) ErrorHandler(w http.ResponseWriter, req *http.Request, status int) {

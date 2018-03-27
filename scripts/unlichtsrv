@@ -26,13 +26,15 @@ usage () {
 
 # build will build a docker image of the app being worked on
 build () {
+  printf "Please input SMTP Server Password: "
+  read -s PW
   # if no arg build image using latest tag
   if [ $# == 0 ]; then
-    sudo docker build -t $BINARY_NAME:latest . --build-arg app_name=$BINARY_NAME --build-arg src_path=/go/src/github.com/KaiserGald --build-arg install_path=$INSTALLPATH
+    sudo docker build -t $BINARY_NAME:latest . --build-arg app_name=$BINARY_NAME --build-arg src_path=/go/src/github.com/KaiserGald --build-arg install_path=$INSTALLPATH --build-arg smtp_pw=$PW
     echo -e "Image ${PURPLE}$BINARY_NAME${NC}:${WHITE}latest${NC} built."
   # else use the tag
   else
-    sudo docker build -t $BINARY_NAME:$1 . --build-arg app_name=$BINARY_NAME --build-arg src_path=/go/src/github.com/KaiserGald --build-arg install_path=$INSTALLPATH
+    sudo docker build -t $BINARY_NAME:$1 . --build-arg app_name=$BINARY_NAME --build-arg src_path=/go/src/github.com/KaiserGald --build-arg install_path=$INSTALLPATH --build-arg smtp_pw=$PW
     echo -e "Image ${PURPLE}$BINARY_NAME${NC}:${WHITE}$1${NC} built."
   fi
 }

@@ -2,10 +2,12 @@ FROM golang:latest
 ARG app_name
 ARG src_path
 ARG install_path
+ARG smtp_pw
 ENV GOBIN /go/bin
 ENV BINARY_NAME $app_name
 ENV INSTALLPATH $install_path
 ENV APPROOT $src_path/$BINARY_NAME
+ENV SMTPPW $smtp_pw
 RUN mkdir /srv/$BINARY_NAME
 RUN mkdir -p $src_path/$BINARY_NAME
 ADD . $src_path/$BINARY_NAME
