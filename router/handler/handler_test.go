@@ -13,8 +13,11 @@ import (
 )
 
 var lg *logger.Logger
+var path string
 
 func TestMain(m *testing.M) {
+	path, _ = os.Getwd()
+	os.Setenv("APPROOT", path+"/../..")
 	lg = logger.New()
 	r := m.Run()
 	os.Exit(r)

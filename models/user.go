@@ -27,6 +27,7 @@ type UserEmail struct {
 	Email         string `json:"email" bson:"email"`
 	EmailVerified bool   `json:"emailVerified" bson:"emailVerified"`
 	EmailToken    string `json:"emailToken" bson:"emailToken"`
+	TokenExpires  string `json:"tokenExpires" bson:"tokenExpires"`
 }
 
 // CreateUser creates a new user and inserts it into the database.
@@ -38,11 +39,12 @@ func CreateUser(un, em, pw string, s *mgo.Session) error {
 	u := User{
 		Username:  un,
 		Password:  pw,
-		CreatedOn: time.Now().String(),
+		CreatedOn: time.Now().Format(time.RFC3339),
 		UserEmail: UserEmail{
 			Email:         em,
 			EmailVerified: false,
 			EmailToken:    t,
+			TokenExpires:  time.Now().Add(time.Hour * 6).Format(time.RFC3339),
 		},
 	}
 	log.Debug.Log("%v", u)
@@ -86,15 +88,43 @@ func (u *User) VerifyUserEmail(token string, s *mgo.Session) error {
 	} else {
 		return errors.New("authentication tokens do not match")
 	}
+
+	exp, err := time.Parse(time.RFC3339, u.TokenExpires)
+	if err != nil {
+		return err
+	}
+	if time.Now().After(exp) {
+		u.EmailVerified = false
+		return errors.New("token has already expired")
+	}
+
 	c := s.DB("gmscreen").C("User")
 	colQ := bson.M{"username": u.Username}
-	change := bson.M{"$set": bson.M{"emailVerified": true}}
-	err := c.Update(colQ, change)
+	change := bson.M{"$set": bson.M{"useremail.emailVerified": true}}
+	err = c.Update(colQ, change)
 	if err != nil {
 		return err
 	}
 
 	return nil
+}
+
+// NewEmailVerifyToken creates a new email verification token, resets the expiration time and updates the database. It then returns the token.
+func (u *User) NewEmailVerifyToken(s *mgo.Session) (string, error) {
+	t, err := token.GenerateToken(u.Email)
+	if err != nil {
+		return "", err
+	}
+
+	exp := time.Now().Add(time.Hour * 6).Unix()
+	c := s.DB("gmscreen").C("User")
+	colQ := bson.M{"username": u.Username}
+	change := bson.M{"$set": bson.M{"emailToken": t, "tokenExpires": exp}}
+	err = c.Update(colQ, change)
+	if err != nil {
+		return "", err
+	}
+	return t, nil
 }
 
 // UpdateUserPassword updates the user's password with a new one.

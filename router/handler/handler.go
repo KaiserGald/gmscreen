@@ -14,6 +14,7 @@ import (
 	"github.com/KaiserGald/gmscreen/router/handler/handlers/index"
 	"github.com/KaiserGald/gmscreen/router/handler/handlers/login"
 	"github.com/KaiserGald/gmscreen/router/handler/handlers/register"
+	"github.com/KaiserGald/gmscreen/router/handler/handlers/verify"
 	"github.com/KaiserGald/logger"
 )
 
@@ -40,6 +41,12 @@ func Start(lg *logger.Logger) error {
 
 	register.Route().Init(log)
 	err = Add(register.Route())
+	if err != nil {
+		return err
+	}
+
+	verify.Route().Init(log)
+	err = Add(verify.Route())
 	if err != nil {
 		return err
 	}

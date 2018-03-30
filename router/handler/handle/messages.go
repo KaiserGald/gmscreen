@@ -10,3 +10,10 @@ type ValidUserDataMessage struct {
 	Username bool
 	Email    bool
 }
+
+// EmailVerificationMessage represents a json message about the email verification success
+type EmailVerificationMessage struct {
+	EmailVerified bool
+	TokenValid    bool
+	TokenExpired  bool
+}

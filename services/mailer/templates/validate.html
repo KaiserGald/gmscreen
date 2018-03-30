@@ -3,6 +3,11 @@
 <body>
 <h3>Welcome, {{ .Username }}, to the Unlicht GM Screen!</h3>
 <p>To continue your registration process, please click the link below to validate your email!</p>
-<a href="https://192.168.1.140:8080/validate?{{ . }}">Confirm Email Address</a>
+<form method="GET" action="https://192.168.1.140:8082/verify">
+  <input type="hidden" name="email" value="{{ .UserEmail.Email }}"/>
+  <input type="hidden" name="token" value="{{ .UserEmail.EmailToken }}" />
+  <button type="submit">Click here to verify!</button>
+</form>
+
 </body>
 </html>

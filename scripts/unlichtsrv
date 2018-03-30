@@ -28,6 +28,7 @@ usage () {
 build () {
   printf "Please input SMTP Server Password: "
   read -s PW
+  printf "\n"
   # if no arg build image using latest tag
   if [ $# == 0 ]; then
     sudo docker build -t $BINARY_NAME:latest . --build-arg app_name=$BINARY_NAME --build-arg src_path=/go/src/github.com/KaiserGald --build-arg install_path=$INSTALLPATH --build-arg smtp_pw=$PW

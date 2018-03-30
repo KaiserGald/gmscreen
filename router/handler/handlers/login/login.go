@@ -23,7 +23,7 @@ func init() {
 
 // handleFunc is the actual handler for the function
 func handleFunc(w http.ResponseWriter, r *http.Request) {
-	route.Log().Debug.Log("Handling Route '/login'.")
+	route.Log().Debug.Log("Handling Route '/login' Method '%v'.", r.Method)
 	route.Log().Debug.Log(r.Method)
 	switch r.Method {
 	case "OPTIONS":
